@@ -11,7 +11,7 @@ const vitalsDiagram = readFileSync(new URL('../../../public/diagrams/vitals-brid
   <header class="page-header" id="monitor">
     <div class="shell">
       <h1>From the vitals monitor to the chart, hands-free</h1>
-      <p class="subtitle project-status">rolling out</p>
+      <p class="subtitle project-status">prototype</p>
       <p class="case-lede">Every visit at the clinic starts with vitals on a Welch Allyn Connex monitor. Then a medical assistant reads the screen and types the numbers into the chart. Transcription is slow and occasionally wrong, and the monitor has known how to speak a standard clinical protocol since before I worked here. Nobody had ever plugged it in.</p>
     </div>
   </header>
@@ -47,7 +47,7 @@ const vitalsDiagram = readFileSync(new URL('../../../public/diagrams/vitals-brid
 
     <section class="article-section" id="status">
       <h2><span class="section-count" aria-hidden="true">04</span><span>Where it stands</span></h2>
-      <p>The bridge is built, reviewed, and green: 65 tests across the HL7 parser, the MLLP server, the EHR client, and the capture fallback. Production rollout is pending the vendor's confirmation of the device license. The tablet fallback path is already live in the clinic.</p>
+      <p>The bridge is built, reviewed, and green: 65 tests across the HL7 parser, the MLLP server, the EHR client, and the capture fallback. It is not live yet: go-live waits on the vendor's confirmation of the device license, EHR API access, and choosing a host machine on the clinic network. A go-live runbook and install scripts are written and waiting.</p>
     </section>
 
     <section class="article-section" id="stack">

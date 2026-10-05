@@ -12,7 +12,7 @@ const homelabDiagram = readFileSync(new URL('../../../public/diagrams/homelab.sv
     <div class="shell">
       <h1>A homelab that pages itself</h1>
       <p class="subtitle">Self-hosted AI agents with SRE guardrails</p>
-      <p class="case-lede">Outside work I run a small fleet of self-hosted AI agents split across a Windows workstation and a hardened Raspberry Pi, connected over a mesh VPN. They triage my email, file notes into my knowledge base, watch tech news, draft routine documents, and keep each other healthy. It started as a convenience project and turned into the best systems education I've had. One boundary is non-negotiable: this fleet runs my personal automation only. Nothing from my employer's systems runs through it.</p>
+      <p class="case-lede">Outside work I run a small fleet of self-hosted AI agents on an always-on Windows workstation, with a hardened Raspberry Pi handling infrastructure, connected over a mesh VPN. They triage my email, file notes into my knowledge base, watch tech news, draft routine documents, and keep each other healthy. It started as a convenience project and turned into the best systems education I've had. One boundary is non-negotiable: this fleet runs my personal automation only. Nothing from my employer's systems runs through it.</p>
     </div>
   </header>
 
@@ -73,8 +73,8 @@ const homelabDiagram = readFileSync(new URL('../../../public/diagrams/homelab.sv
           <span class="cap cap-6">where the tripwire pages me</span>
         </p>
       </div>
-      <p class="diagram-link"><a href="/diagrams/homelab.svg">Open full size</a></p>
-      <p>Two gateways run the fleet: the workstation handles heavy automation, and the Pi runs an always-on service under its own locked-down, unprivileged account. Every agent calls models through a shared resilient router: an ordered fallback chain across several providers with a local model as the floor, circuit breakers with shared health state so that when one agent hits a provider's quota wall the whole fleet routes around it, and rolling per-backend spend caps.</p>
+      <p class="diagram-link">The diagram shows the setup at the time of the incident; "Where it stands now" below covers what changed since. <a href="/diagrams/homelab.svg">Open full size</a></p>
+      <p>At the time of the incident, two gateways ran the fleet: the workstation handled heavy automation, and the Pi ran an always-on service under its own locked-down, unprivileged account. Every agent called models through a shared resilient router: an ordered fallback chain across several providers with a local model as the floor, circuit breakers with shared health state so that when one agent hits a provider's quota wall the whole fleet routes around it, and rolling per-backend spend caps.</p>
     </section>
 
     <section class="article-section" id="redesign">
@@ -87,12 +87,13 @@ const homelabDiagram = readFileSync(new URL('../../../public/diagrams/homelab.sv
       <h2><span class="section-count" aria-hidden="true">04</span><span>What runs today</span></h2>
       <p>The scheduled fleet includes an IT-ops agent that runs every 15 minutes with tiered auto-fixes (snapshot, apply, verify, roll back on failure, two strikes then escalate to me), a medic agent that patches the other agents with test-gated commits and reverts anything that fails, a librarian that files knowledge into my vaults, and mail and calendar triage. A usage dashboard aggregates every token and dollar across 9 sources into one SQLite-backed view.</p>
       <p>The Pi itself: key-only SSH, fail2ban, a default-deny firewall, automatic security updates, and services split across unprivileged users.</p>
+      <p><strong>Where it stands now (October 2026).</strong> The fleet has since been simplified. The agents run on the always-on workstation, and the Pi is an infrastructure node only: VPN routing, a watchdog, and backups, with no agents on it. Model use moved to two subscription plans with no pay-per-token API lane at all, which removes the runaway-spend failure mode this page is about. The local model's only job now is building search embeddings for my knowledge base.</p>
       <p>Auto-fix with a receipt. The ops agent can restart services and clean stale state on its own, but every action is snapshotted, verified, rolled back on failure, and logged to an audit trail. Automation you can't audit is just a faster way to break things.</p>
     </section>
 
     <section class="article-section" id="stack">
       <h2><span class="section-count" aria-hidden="true">05</span><span>Stack</span></h2>
-      <p>Python, PowerShell, and Bash; systemd and Windows scheduled tasks; SQLite; a mesh VPN; several LLM providers plus local models via Ollama; Telegram for alerting.</p>
+      <p>Python, PowerShell, and Bash; systemd and Windows scheduled tasks; SQLite; a mesh VPN; Claude and Codex on subscription plans; a local embedding model via Ollama for knowledge-base search.</p>
     </section>
 
     <section class="article-section" id="outcome">
